@@ -17,32 +17,30 @@ final class TennisScoreEngine {
         case forty = 3
     }
     
-    let player1Name: String
-    let player2Name: String
+    struct Player {
+        var name: String
+        private(set) var points: Points = .love
+        
+        init(with name: String) { self.name = name }
+        
+        mutating func score() {
+            switch points {
+            case .love: points = .fifteen
+            case .fifteen: points = .thirty
+            case .thirty: points = .forty
+            default: fatalError("Undefined action")
+            }
+        }
+    }
     
-    private(set) var player1Score: Points = .love
-    private(set) var player2Score: Points = .love
+    var player1: Player
+    var player2: Player
     
     init(_ player1Name: String, _ player2Name: String) {
-        self.player1Name = player1Name
-        self.player2Name = player2Name
+        player1 = Player(with: player1Name)
+        player2 = Player(with: player2Name)
     }
     
-    func player1Scores() {
-        switch player1Score {
-        case .love: player1Score = .fifteen
-        case .fifteen: player1Score = .thirty
-        case .thirty: player1Score = .forty
-        case .forty: player1Score = .love
-        }
-    }
-    
-    func player2Scores() {
-        switch player2Score {
-        case .love: player2Score = .fifteen
-        case .fifteen: player2Score = .thirty
-        case .thirty: player2Score = .forty
-        case .forty: player2Score = .love
-        }
-    }
+    func player1Scores() { player1.score() }
+    func player2Scores() { player2.score() }
 }

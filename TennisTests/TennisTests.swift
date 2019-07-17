@@ -20,10 +20,10 @@ class TennisTests: XCTestCase {
         let sut = TennisScoreEngine(player1, player2)
         
         // then
-        XCTAssertEqual(sut.player1Name, "Player1")
-        XCTAssertEqual(sut.player2Name, "Player2")
-        XCTAssertEqual(sut.player1Score, .love)
-        XCTAssertEqual(sut.player2Score, .love)
+        XCTAssertEqual(sut.player1.name, "Player1")
+        XCTAssertEqual(sut.player2.name, "Player2")
+        XCTAssertEqual(sut.player1.points, .love)
+        XCTAssertEqual(sut.player2.points, .love)
     }
 }
 
@@ -39,7 +39,7 @@ extension TennisTests {
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1Score, .fifteen)
+        XCTAssertEqual(sut.player1.points, .fifteen)
     }
     
     func test_Player1ScoresTwice_Player1ScoreIs30() {
@@ -53,7 +53,7 @@ extension TennisTests {
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1Score, .thirty)
+        XCTAssertEqual(sut.player1.points, .thirty)
     }
     
     func test_Player1ScoresThrice_Player1ScoreIs40() {
@@ -68,7 +68,7 @@ extension TennisTests {
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1Score, .forty)
+        XCTAssertEqual(sut.player1.points, .forty)
     }
 }
 
@@ -84,7 +84,7 @@ extension TennisTests {
         sut.player2Scores()
         
         // then
-        XCTAssertEqual(sut.player2Score, .fifteen)
+        XCTAssertEqual(sut.player2.points, .fifteen)
     }
     
     func test_Player2ScoresTwice_Player2ScoreIs30() {
@@ -98,7 +98,7 @@ extension TennisTests {
         sut.player2Scores()
         
         // then
-        XCTAssertEqual(sut.player2Score, .thirty)
+        XCTAssertEqual(sut.player2.points, .thirty)
     }
     
     func test_Player2ScoresThrice_Player2ScoreIs40() {
@@ -113,6 +113,6 @@ extension TennisTests {
         sut.player2Scores()
         
         // then
-        XCTAssertEqual(sut.player2Score, .forty)
+        XCTAssertEqual(sut.player2.points, .forty)
     }
 }
