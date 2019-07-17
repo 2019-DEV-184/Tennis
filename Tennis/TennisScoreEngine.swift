@@ -15,24 +15,15 @@ final class TennisScoreEngine {
         case fifteen = 1
         case thirty = 2
         case forty = 3
-        case win = 4
+        case advantage
+        case win = 5
     }
     
     struct Player {
         var name: String
-        private(set) var points: Points = .love
+        var points: Points = .love
         
         init(with name: String) { self.name = name }
-        
-        mutating func score() {
-            switch points {
-            case .love: points = .fifteen
-            case .fifteen: points = .thirty
-            case .thirty: points = .forty
-            case .forty: points = .win
-            case .win: fatalError("Undefined action")
-            }
-        }
     }
     
     var player1: Player
@@ -43,7 +34,32 @@ final class TennisScoreEngine {
         player2 = Player(with: player2Name)
     }
     
+    private func score(for player: inout Player, otherPlayer: inout Player) {
+        // switch on the current points of the player
+        switch player.points {
+            
+        case .love:
+            player.points = .fifteen
+            
+        case .fifteen:
+            player.points = .thirty
+            
+        case .thirty:
+            player.points = .forty
+            
+        case .forty:
+            if otherPlayer.points == .forty { player.points = .advantage }
+            else if otherPlayer.points == .advantage { otherPlayer.points = .forty }
+            else { player.points = .win }
+            
+        case .advantage:
+            player.points = .win
+            
+        default: fatalError("Undefined action")
+        }
+    }
+    
     // Exposing these 2 functions for easy score keeping
-    func player1Scores() { player1.score() }
-    func player2Scores() { player2.score() }
+    func player1Scores() { score(for: &player1, otherPlayer: &player2) }
+    func player2Scores() { score(for: &player2, otherPlayer: &player1) }
 }

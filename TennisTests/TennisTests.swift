@@ -10,7 +10,6 @@ import XCTest
 @testable import Tennis
 
 class TennisTests: XCTestCase {
-    
     func test_Initialisation() {
         // given
         let player1 = "Player1"
@@ -29,7 +28,7 @@ class TennisTests: XCTestCase {
     func getMockSUT() -> TennisScoreEngine { return TennisScoreEngine("Player1", "Player2") }
 }
 
-// Testing player1 scoring
+// Testing player1 scoring (upto forty) scenarios
 extension TennisTests {
     func test_Player1ScoresOnce_Player1ScoreIs15() {
         // given
@@ -68,7 +67,7 @@ extension TennisTests {
     }
 }
 
-// Testing player2 scoring
+// Testing player2 scoring (upto forty) scenarios
 extension TennisTests {
     func test_Player2ScoresOnce_Player2ScoreIs15() {
         // given
@@ -108,12 +107,12 @@ extension TennisTests {
     }
 }
 
-// Player1 wins
+// Testing Player1 no-deuce wins scenarios
 extension TennisTests {
     
     // GameType1 = P1, P2, P1, P2, P1, P1
     // P1 - Win, P2 - 30
-    func test_GameType1_Player1Wins_Player2Scores30() {
+    func test_GameP1P2P1P2P1P1_Player1Wins_Player2Scores30() {
         // given
         let sut = getMockSUT()
         
@@ -132,7 +131,7 @@ extension TennisTests {
     
     // GameType2 = P2, P1, P2, P1, P2, P2
     // P1 - 30, P2 - Win
-    func test_GameType2_Player2Wins_Player1Scores30() {
+    func test_GameP2P1P2P1P2P2_Player2Wins_Player1Scores30() {
         // given
         let sut = getMockSUT()
         
@@ -147,5 +146,73 @@ extension TennisTests {
         // then
         XCTAssertEqual(sut.player1.points, .thirty)
         XCTAssertEqual(sut.player2.points, .win)
+    }
+}
+
+// Testing different advantage scenarios
+extension TennisTests {
+    
+    // Game - P1, P2, P1, P2, P1, P2, P1
+    // P1 - Deuce Advantage, P2 - 40
+    func test_GameP1P2P1P2P1P2P1_Player1HasAdvantage() {
+        // given
+        let sut = getMockSUT()
+        
+        // when
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        
+        // then
+        XCTAssertEqual(sut.player1.points, .advantage)
+        XCTAssertEqual(sut.player2.points, .forty)
+    }
+    
+    // Game - P1, P2, P1, P2, P1, P2, P1, P2
+    // P1 - 40, P2 - 40
+    func test_GameP1P2P1P2P1P2P1P2_Player2TakesAdvantageFromPlayer1() {
+        // given
+        let sut = getMockSUT()
+        
+        // when
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        
+        // then
+        XCTAssertEqual(sut.player1.points, .forty)
+        XCTAssertEqual(sut.player2.points, .forty)
+    }
+    
+    // Game - P1, P2, P1, P2, P1, P2, P1, P2, P1, P1
+    // P1 - Win, P2 - 40
+    func test_GameP1P2P1P2P1P2P1P2P1P1_Players1WinsAfterDeuce() {
+        // given
+        let sut = getMockSUT()
+        
+        // when
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player1Scores()
+        
+        // then
+        XCTAssertEqual(sut.player1.points, .win)
+        XCTAssertEqual(sut.player2.points, .forty)
     }
 }
