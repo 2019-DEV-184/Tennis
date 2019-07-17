@@ -87,6 +87,7 @@ extension TennisTests {
         
         // when
         sut.player2Scores()
+        
         sut.player2Scores()
         
         // then
@@ -104,5 +105,47 @@ extension TennisTests {
         
         // then
         XCTAssertEqual(sut.player2.points, .forty)
+    }
+}
+
+// Player1 wins
+extension TennisTests {
+    
+    // GameType1 = P1, P2, P1, P2, P1, P1
+    // P1 - Win, P2 - 30
+    func test_GameType1_Player1Wins_Player2Scores30() {
+        // given
+        let sut = getMockSUT()
+        
+        // when
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player1Scores()
+        
+        // then
+        XCTAssertEqual(sut.player1.points, .win)
+        XCTAssertEqual(sut.player2.points, .thirty)
+    }
+    
+    // GameType2 = P2, P1, P2, P1, P2, P2
+    // P1 - 30, P2 - Win
+    func test_GameType2_Player2Wins_Player1Scores30() {
+        // given
+        let sut = getMockSUT()
+        
+        // when
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        sut.player2Scores()
+        sut.player2Scores()
+        
+        // then
+        XCTAssertEqual(sut.player1.points, .thirty)
+        XCTAssertEqual(sut.player2.points, .win)
     }
 }

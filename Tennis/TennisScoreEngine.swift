@@ -15,6 +15,7 @@ final class TennisScoreEngine {
         case fifteen = 1
         case thirty = 2
         case forty = 3
+        case win = 4
     }
     
     struct Player {
@@ -28,7 +29,8 @@ final class TennisScoreEngine {
             case .love: points = .fifteen
             case .fifteen: points = .thirty
             case .thirty: points = .forty
-            default: fatalError("Undefined action")
+            case .forty: points = .win
+            case .win: fatalError("Undefined action")
             }
         }
     }
@@ -41,6 +43,7 @@ final class TennisScoreEngine {
         player2 = Player(with: player2Name)
     }
     
+    // Exposing these 2 functions for easy score keeping
     func player1Scores() { player1.score() }
     func player2Scores() { player2.score() }
 }
