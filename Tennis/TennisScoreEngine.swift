@@ -36,4 +36,13 @@ final class TennisScoreEngine {
         case .forty: player1Score = .love
         }
     }
+    
+    func player2Scores() {
+        switch player2Score {
+        case .love: player2Score = .fifteen
+        case .fifteen: player2Score = .thirty
+        case .thirty: player2Score = .forty
+        case .forty: player2Score = .love
+        }
+    }
 }
