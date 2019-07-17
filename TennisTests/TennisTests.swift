@@ -25,15 +25,15 @@ class TennisTests: XCTestCase {
         XCTAssertEqual(sut.player1.points, .love)
         XCTAssertEqual(sut.player2.points, .love)
     }
+    
+    func getMockSUT() -> TennisScoreEngine { return TennisScoreEngine("Player1", "Player2") }
 }
 
 // Testing player1 scoring
 extension TennisTests {
     func test_Player1ScoresOnce_Player1ScoreIs15() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player1Scores()
@@ -44,9 +44,7 @@ extension TennisTests {
     
     func test_Player1ScoresTwice_Player1ScoreIs30() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player1Scores()
@@ -58,9 +56,7 @@ extension TennisTests {
     
     func test_Player1ScoresThrice_Player1ScoreIs40() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player1Scores()
@@ -76,9 +72,7 @@ extension TennisTests {
 extension TennisTests {
     func test_Player2ScoresOnce_Player2ScoreIs15() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player2Scores()
@@ -89,9 +83,7 @@ extension TennisTests {
     
     func test_Player2ScoresTwice_Player2ScoreIs30() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player2Scores()
@@ -103,9 +95,7 @@ extension TennisTests {
     
     func test_Player2ScoresThrice_Player2ScoreIs40() {
         // given
-        let player1 = "Player1"
-        let player2 = "Player2"
-        let sut = TennisScoreEngine(player1, player2)
+        let sut = getMockSUT()
         
         // when
         sut.player2Scores()
