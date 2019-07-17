@@ -26,6 +26,27 @@ class TennisTests: XCTestCase {
     }
     
     func getMockSUT() -> TennisScoreEngine { return TennisScoreEngine("Player1", "Player2") }
+    
+    func assertEqualPoints(in sut: TennisScoreEngine, player1Points: TennisScoreEngine.Points, player2Points: TennisScoreEngine.Points) {
+        XCTAssertEqual(sut.player1.points, player1Points)
+        XCTAssertEqual(sut.player2.points, player2Points)
+    }
+    
+    func addPointsBothPlayerWon3Shots(in sut: TennisScoreEngine) {
+        addPointsBothPlayerWon2Shots(in: sut)
+        sut.player1Scores()
+        sut.player2Scores()
+    }
+    
+    func addPointsBothPlayerWon2Shots(in sut: TennisScoreEngine) {
+        addPointsBothPlayerWon1Shot(in: sut)
+        addPointsBothPlayerWon1Shot(in: sut)
+    }
+    
+    func addPointsBothPlayerWon1Shot(in sut: TennisScoreEngine) {
+        sut.player1Scores()
+        sut.player2Scores()
+    }
 }
 
 // Testing player1 scoring (upto forty) scenarios
@@ -86,7 +107,6 @@ extension TennisTests {
         
         // when
         sut.player2Scores()
-        
         sut.player2Scores()
         
         // then
@@ -117,16 +137,12 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
+        addPointsBothPlayerWon2Shots(in: sut)
         sut.player1Scores()
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1.points, .win)
-        XCTAssertEqual(sut.player2.points, .thirty)
+        assertEqualPoints(in: sut, player1Points: .win, player2Points: .thirty)
     }
     
     // GameType2 = P2, P1, P2, P1, P2, P2
@@ -136,16 +152,12 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
+        addPointsBothPlayerWon2Shots(in: sut)
         sut.player2Scores()
         sut.player2Scores()
         
         // then
-        XCTAssertEqual(sut.player1.points, .thirty)
-        XCTAssertEqual(sut.player2.points, .win)
+        assertEqualPoints(in: sut, player1Points: .thirty, player2Points: .win)
     }
 }
 
@@ -159,17 +171,11 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
+        addPointsBothPlayerWon3Shots(in: sut)
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1.points, .advantage)
-        XCTAssertEqual(sut.player2.points, .forty)
+        assertEqualPoints(in: sut, player1Points: .advantage, player2Points: .forty)
     }
     
     // Game - P1, P2, P1, P2, P1, P2, P1, P2
@@ -179,18 +185,11 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
+        addPointsBothPlayerWon3Shots(in: sut)
+        addPointsBothPlayerWon1Shot(in: sut)
         
         // then
-        XCTAssertEqual(sut.player1.points, .forty)
-        XCTAssertEqual(sut.player2.points, .forty)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .forty)
     }
     
     // Game - P1, P2, P1, P2, P1, P2, P1, P2, P1, P1
@@ -200,20 +199,13 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
+        addPointsBothPlayerWon3Shots(in: sut)
+        addPointsBothPlayerWon1Shot(in: sut)
         sut.player1Scores()
         sut.player1Scores()
         
         // then
-        XCTAssertEqual(sut.player1.points, .win)
-        XCTAssertEqual(sut.player2.points, .forty)
+        assertEqualPoints(in: sut, player1Points: .win, player2Points: .forty)
     }
     
     // Game - P1, P2, P1, P2, P1, P2, P1, P2, P2, P2
@@ -223,20 +215,13 @@ extension TennisTests {
         let sut = getMockSUT()
         
         // when
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
-        sut.player1Scores()
-        sut.player2Scores()
+        addPointsBothPlayerWon3Shots(in: sut)
+        addPointsBothPlayerWon1Shot(in: sut)
         sut.player2Scores()
         sut.player2Scores()
         
         // then
-        XCTAssertEqual(sut.player1.points, .forty)
-        XCTAssertEqual(sut.player2.points, .win)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .win)
     }
 }
 
@@ -250,38 +235,39 @@ extension TennisTests {
         
         // when
         sut.player1Scores()
-        assertEqual(sut: sut, player1Points: .fifteen, player2Points: .love)
+        assertEqualPoints(in: sut, player1Points: .fifteen, player2Points: .love)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .fifteen, player2Points: .fifteen)
+        assertEqualPoints(in: sut, player1Points: .fifteen, player2Points: .fifteen)
         
         sut.player1Scores()
-        assertEqual(sut: sut, player1Points: .thirty, player2Points: .fifteen)
+        assertEqualPoints(in: sut, player1Points: .thirty, player2Points: .fifteen)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .thirty, player2Points: .thirty)
+        assertEqualPoints(in: sut, player1Points: .thirty, player2Points: .thirty)
         
         sut.player1Scores()
-        assertEqual(sut: sut, player1Points: .forty, player2Points: .thirty)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .thirty)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .forty, player2Points: .forty)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .forty)
         
         sut.player1Scores()
-        assertEqual(sut: sut, player1Points: .advantage, player2Points: .forty)
+        assertEqualPoints(in: sut, player1Points: .advantage, player2Points: .forty)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .forty, player2Points: .forty)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .forty)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .forty, player2Points: .advantage)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .advantage)
         
         sut.player2Scores()
-        assertEqual(sut: sut, player1Points: .forty, player2Points: .win)
-    }
-    
-    func assertEqual(sut: TennisScoreEngine, player1Points: TennisScoreEngine.Points, player2Points: TennisScoreEngine.Points) {
-        XCTAssertEqual(sut.player1.points, player1Points)
-        XCTAssertEqual(sut.player2.points, player2Points)
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .win)
+        
+        // Registering scores after a player has already won, should not change the scores
+        sut.player2Scores()
+        sut.player2Scores()
+        sut.player1Scores()
+        assertEqualPoints(in: sut, player1Points: .forty, player2Points: .win)
     }
 }

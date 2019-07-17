@@ -19,7 +19,7 @@ final class TennisScoreEngine {
         case win = 5
     }
     
-    struct Player {
+    class Player {
         var name: String
         var points: Points = .love
         
@@ -35,6 +35,15 @@ final class TennisScoreEngine {
     }
     
     private func score(for player: inout Player, otherPlayer: inout Player) {
+        guard player.points != .win else {
+            print("\(player.name) won the game.")
+            return
+        }
+        guard otherPlayer.points != .win else {
+            print("\(otherPlayer.name) won the game.")
+            return
+        }
+        
         // switch on the current points of the player
         switch player.points {
         
@@ -67,9 +76,8 @@ final class TennisScoreEngine {
         case .advantage:
             player.points = .win
             print("\(player.name) wins the game.")
-            
-        case .win:
-            print("\(player.name) won the game.")
+
+        default: break
         }
     }
     
