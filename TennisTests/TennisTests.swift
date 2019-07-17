@@ -11,4 +11,18 @@ import XCTest
 
 class TennisTests: XCTestCase {
     
+    func test_Initialisation() {
+        // given
+        let player1 = "Player1"
+        let player2 = "Player2"
+        
+        // when
+        let sut = TennisScoreEngine(player1, player2)
+        
+        // then
+        XCTAssertEqual(sut.player1Name, "Player1")
+        XCTAssertEqual(sut.player2Name, "Player2")
+    }
+    
+    
 }
