@@ -15,7 +15,7 @@ final class TennisScoreEngine {
         case fifteen = 1
         case thirty = 2
         case forty = 3
-        case advantage
+        case advantage = 4
         case win = 5
     }
     
@@ -37,25 +37,39 @@ final class TennisScoreEngine {
     private func score(for player: inout Player, otherPlayer: inout Player) {
         // switch on the current points of the player
         switch player.points {
-            
+        
         case .love:
             player.points = .fifteen
-            
+            print("\(player.name) is on 15.")
+        
         case .fifteen:
             player.points = .thirty
-            
+            print("\(player.name) is on 30.")
+        
         case .thirty:
             player.points = .forty
+            print("\(player.name) is on 40.")
             
         case .forty:
-            if otherPlayer.points == .forty { player.points = .advantage }
-            else if otherPlayer.points == .advantage { otherPlayer.points = .forty }
-            else { player.points = .win }
-            
+            if otherPlayer.points == .forty {
+                player.points = .advantage
+                print("\(player.name) has the Advantage")
+            }
+            else if otherPlayer.points == .advantage {
+                otherPlayer.points = .forty
+                print("\(otherPlayer.name) is back on 40.")
+            }
+            else {
+                player.points = .win
+                print("\(player.name) wins the game.")
+            }
+        
         case .advantage:
             player.points = .win
+            print("\(player.name) wins the game.")
             
-        default: fatalError("Undefined action")
+        case .win:
+            print("\(player.name) won the game.")
         }
     }
     
